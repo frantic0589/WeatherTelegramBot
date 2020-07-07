@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import json.WeatherCurrent;
@@ -22,6 +24,8 @@ import java.io.IOException;
 
 public class BotOpenWeather extends TelegramLongPollingBot {
 
+    private String jsonToString = new String();
+
     public static void main(String[] args) {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi =  new TelegramBotsApi();
@@ -36,17 +40,13 @@ public class BotOpenWeather extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         String message = update.getMessage().getText();
         try {
-            JsonObject jsonObject = new JsonParser().parse(getWeather(message)).getAsJsonObject();
+            jsonToString = getWeather(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        WeatherCurrent weatherCurrent = new WeatherCurrent();
-        weatherCurrent.getBase();
-        try {
-            sendMsg(update.getMessage().getChatId().toString(), );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        WeatherCurrent weatherCurrent = getWeatherCurrent(jsonToString);
+        double tempCel = weatherCurrent.getMain().getTemp() - 273.15;
+        sendMsg(update.getMessage().getChatId().toString(), String.format("Текущая температура: %.2f", tempCel));
     }
 
     public synchronized void sendMsg(String chatId, String message) {
@@ -69,7 +69,7 @@ public class BotOpenWeather extends TelegramLongPollingBot {
         return "1060501754:AAEY18OnlmCX_-1M8hWHH0VKrCfNs38-42o";
     }
 
-    public String getWeather(String message) throws IOException {
+    private String getWeather(String message) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         StringBuilder responseBody = new StringBuilder();
         try{
@@ -95,5 +95,14 @@ public class BotOpenWeather extends TelegramLongPollingBot {
             httpClient.close();
         }
         return responseBody.toString();
+    }
+
+    private WeatherCurrent getWeatherCurrent(String json) {
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+
+        Gson gson = builder.create();
+        WeatherCurrent weatherCurrent = gson.fromJson(json, WeatherCurrent.class);
+        return weatherCurrent;
     }
 }
