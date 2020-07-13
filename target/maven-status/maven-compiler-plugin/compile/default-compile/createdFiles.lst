@@ -1,0 +1,16 @@
+json/Wind.class
+json/Wind$Builder.class
+json/WeatherCurrent$Builder.class
+json/Sys$Builder.class
+json/Weather$Builder.class
+BotOpenWeather.class
+json/Main.class
+json/Weather.class
+json/Main$Builder.class
+json/Clouds.class
+BotOpenWeather$1.class
+json/Sys.class
+json/WeatherCurrent.class
+json/Coord.class
+json/Coord$Builder.class
+json/Clouds$Builder.class
