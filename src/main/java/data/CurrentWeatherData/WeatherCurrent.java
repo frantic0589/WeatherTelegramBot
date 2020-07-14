@@ -1,5 +1,5 @@
 
-package data;
+package data.CurrentWeatherData;
 
 import java.util.List;
 import javax.annotation.Generated;
@@ -187,6 +187,11 @@ public class WeatherCurrent {
             return weatherCurrent;
         }
 
+    }
+
+    public String getCeurrentWeather(){
+        return String.format("Текущая погода.%nГород: %s%nТемпература: %s%nВлажность: %s%nВетер: %s%n" +
+                "Облачность: %s%n", getName(), getMain().getTemp().toString(), getMain().getHumidity().toString(), getWind().getSpeed().toString(), getClouds().getAll().toString() );
     }
 
 }

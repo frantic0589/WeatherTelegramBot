@@ -1,5 +1,5 @@
 
-package data;
+package data.CurrentWeatherData;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
