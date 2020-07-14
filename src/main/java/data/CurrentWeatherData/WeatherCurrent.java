@@ -1,5 +1,5 @@
 
-package json;
+package data;
 
 import java.util.List;
 import javax.annotation.Generated;

@@ -1,5 +1,5 @@
 
-package json;
+package data;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
